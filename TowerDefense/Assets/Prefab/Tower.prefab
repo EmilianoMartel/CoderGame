@@ -217,6 +217,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 8614754572944300010, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
-  distance: 10
+  range: 10
   shootingSpeed: 5
   enemyDistance: {x: 0, y: 0, z: 0}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 64
