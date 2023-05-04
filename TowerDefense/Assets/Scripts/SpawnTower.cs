@@ -12,7 +12,7 @@ public class SpawnTower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 distance = player.transform.position - transform.position;
+        Vector3 distance = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
         if (distance.magnitude < 2 && Input.GetKeyDown(KeyCode.E)) Spawn();
     }
 
