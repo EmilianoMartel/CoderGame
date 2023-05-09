@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2859781761743846520}
   - component: {fileID: 2316333592283487116}
   - component: {fileID: 2316333592283487119}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: monorail_trainPassenger
   m_TagString: Train
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 9187045124731822997}
   - component: {fileID: 6927928323481063302}
   - component: {fileID: 8329560662187910962}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: monorail_trainPassenger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

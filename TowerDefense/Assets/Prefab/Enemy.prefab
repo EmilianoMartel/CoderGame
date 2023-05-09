@@ -1112,6 +1112,37 @@ Transform:
   m_Father: {fileID: 491661792885663654}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3826224546536938496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2667556517320046414}
+  m_Layer: 6
+  m_Name: ViewPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2667556517320046414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3826224546536938496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.277, z: 0.503}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8072553732052168717}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3894092004774201945
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2559,7 @@ Transform:
   m_Children:
   - {fileID: 4347990238807150745}
   - {fileID: 321485218396805802}
+  - {fileID: 2667556517320046414}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2564,11 +2596,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88fa83732b92ca64cae6dd0aa3cc051f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointView: {fileID: 0}
   player: {fileID: 2956459668020195171, guid: 3013e2b5ee116dc4fa69232ec6e143e1, type: 3}
   train: {fileID: 2316333592283487119, guid: 9a3004a3b119d90469c3ff2ce86db258, type: 3}
   animator: {fileID: 8614754572944300008}
   speed: 1
   life: 10
+  _pointDirection: {fileID: 3826224546536938496}
+  _rangeTrain: 100
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!54 &727264313936015160
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2596,6 +2634,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2639482
-  m_Height: 1.9701741
+  m_Height: 1.9329405
   m_Direction: 1
-  m_Center: {x: 0, y: 0.98708236, z: 0}
+  m_Center: {x: 0, y: 1.0056992, z: 0}

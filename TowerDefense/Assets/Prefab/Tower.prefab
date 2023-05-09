@@ -170,6 +170,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6246908401940668064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6310925551492358291}
+  m_Layer: 0
+  m_Name: PointShoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6310925551492358291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6246908401940668064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.007, y: 0.49, z: 0.212}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7287823812816790964}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7955711587797679886
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +211,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7287823812816790964}
   - component: {fileID: 7109271040660228728}
+  - component: {fileID: -6528927023163741729}
+  - component: {fileID: 3453440847461496516}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -201,6 +234,7 @@ Transform:
   m_Children:
   - {fileID: 1530171424028286176}
   - {fileID: 4551531270332263228}
+  - {fileID: 6310925551492358291}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -216,10 +250,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1c5fa197c953a4ba66c9a3404bfc82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 8614754572944300010, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
+  state: 0
+  animator: {fileID: 3453440847461496516}
   range: 10
-  shootingSpeed: 5
-  enemyDistance: {x: 0, y: 0, z: 0}
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  pointShoot: {fileID: 6246908401940668064}
+  towerPoint: {fileID: 3522522650059122728}
+  shootingSpeed: 5
+--- !u!65 &-6528927023163741729
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7955711587797679886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.58935547, y: 0.62215555, z: 0.64012146}
+  m_Center: {x: 0.027264595, y: 0.36414033, z: 0.04348564}
+--- !u!95 &3453440847461496516
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7955711587797679886}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a1dd5868d58ae604784546d24b38c120, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
