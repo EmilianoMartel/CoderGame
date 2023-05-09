@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -42,17 +43,18 @@ public class GameManager : MonoBehaviour
         _currentTime += Time.deltaTime;
         if (_currentTime >= p_timeRest && _activateWave == false)
         {
-            Waves();
+            StartCoroutine(Waves());
             _currentTime = 0;
         }
     }
 
-    private void Waves()
+    private IEnumerator Waves()
     {
         _activateWave= true;
-        for (int i = 0; i < _currentWave; i++)
+        for (int i = 0; i < _currentWave+1; i++)
         {
             Instantiate(enemy, spawnPoint.transform.position, transform.rotation);
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -83,4 +85,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("You Louse");
         }
     }
+
+    
 }
