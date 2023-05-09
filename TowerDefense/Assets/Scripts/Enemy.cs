@@ -5,18 +5,27 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public GameObject pointView;
     [SerializeField] private Player player;
     [SerializeField] private Train train;
     [SerializeField] private Animator animator;
     [SerializeField] private float speed = 1.0f;
     [SerializeField] private int life = 100;
+    [SerializeField] private GameObject _pointDirection;
+    [SerializeField] private float _rangeTrain = 100f;
+    [SerializeField] private LayerMask  _layerMask;
 
     //variables para la direccion
     private Vector3 _direction = new Vector3();
 
-    void Update()
-    {        
-        Move();
+    void FixedUpdate()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(_pointDirection.transform.position, transform.TransformDirection(Vector3.forward), out hit, _rangeTrain, _layerMask))
+        {
+            transform.LookAt(hit.transform.position);
+        }
     }
 
     private void Move()
