@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,6 +18,7 @@ public class Tower : MonoBehaviour
 
     //variables para el raycast
     [SerializeField] float range = 10f;
+    [SerializeField] Enemy enemy;
     [SerializeField] LayerMask enemyMask;
     [SerializeField] GameObject pointShoot;
     [SerializeField] GameObject towerPoint;
@@ -54,8 +56,8 @@ public class Tower : MonoBehaviour
             case State.Idle:
                 if (Physics.Raycast(pointShoot.transform.position, _directionShoot, out hit, range, enemyMask))
                 {
-                    Debug.Log("lo veo");
-                    Shoot(hit);
+                    enemy = hit.transform.GetComponent<Enemy>();
+                    Shoot();
                     break;
                 }
                 else
@@ -63,13 +65,10 @@ public class Tower : MonoBehaviour
                     animator.SetBool("Shoot", false);
                     break;
                 }
-            case State.Shoot:
-                if (Physics.Raycast(pointShoot.transform.position, _directionShoot, out hit, range, enemyMask))
-                {
-                    Shoot(hit);
-                    break;
-                }
-                else if(Physics.Raycast(pointShoot.transform.position, _directionShoot, out hit, range+1, enemyMask))
+            case State.Shoot:                
+                Shoot();
+                Vector3 distance = enemy.transform.position - transform.position;
+                if(distance.magnitude > range || enemy == null)
                 {
                     pointShoot.transform.position = _originTransform;
                     towerPoint.transform.position = _originTowerPoint;
@@ -80,7 +79,33 @@ public class Tower : MonoBehaviour
                     break;
                 }
                 break;
-        }        
+        }
+    }
+
+    private void OnEnable()
+    {
+        //activamos el evento OnEnemyDeath del enemigo
+        Enemy.OnEnemyDeath += OnEnemyDeathHandler;
+    }
+
+    private void OnDisable()
+    {
+        //desactivamos el evento OnEnemyDeath del enemigo
+        Enemy.OnEnemyDeath -= OnEnemyDeathHandler;
+    }
+
+    private void OnEnemyDeathHandler(Enemy enemy)
+    {
+        if (enemy == this.enemy)
+        {
+            //si el enemigo muerto es el que estamos apuntando, volvemos al estado Idle
+            pointShoot.transform.position = _originTransform;
+            towerPoint.transform.position = _originTowerPoint;
+            pointShoot.transform.rotation = _originRotation;
+            towerPoint.transform.rotation = _originTowerRotation;
+            animator.SetBool("Shoot", false);
+            state = State.Idle;
+        }
     }
 
     private void CoolDown()
@@ -93,12 +118,16 @@ public class Tower : MonoBehaviour
 
     }
 
-    private void Shoot(RaycastHit hit)
+    private void Shoot()
     {
-        animator.SetBool("Shoot",true);
-        state= State.Shoot;
-        hit.transform.GetComponent<Enemy>().Damaged(1);
-        transform.LookAt(hit.transform.position);
+        if(actualTime > shootingSpeed)
+        {
+            animator.SetBool("Shoot", true);
+            state = State.Shoot;
+            enemy.Damaged(1);
+            transform.LookAt(enemy.transform.position);
+            actualTime = 0;
+        }        
     }
 
     private void OnDrawGizmos()

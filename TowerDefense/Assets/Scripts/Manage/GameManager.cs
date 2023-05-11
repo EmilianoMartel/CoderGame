@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private float _currentTime = 0;
     private int _currentWave = 1;    
     private bool _activateWave = false;
-    public int enemyKilled = 0;
+    private List<Enemy> _enemyList = new List<Enemy>();
 
     //Lo convertimos en un Singelton
     private void Awake()
@@ -41,10 +41,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _currentTime += Time.deltaTime;
-        if (_currentTime >= p_timeRest && _activateWave == false)
+        if ((_currentTime >= p_timeRest) && (_activateWave == false))
         {
             StartCoroutine(Waves());
             _currentTime = 0;
+        }
+        if (_currentWave == p_waveEnemy + 1)
+        {
+            EndGame("Win");
+        }
+        else if (p_lifeGame <= 0)
+        {
+            EndGame("Lose");
         }
     }
 
@@ -53,7 +61,7 @@ public class GameManager : MonoBehaviour
         _activateWave= true;
         for (int i = 0; i < _currentWave+1; i++)
         {
-            Instantiate(enemy, spawnPoint.transform.position, transform.rotation);
+            _enemyList.Add(Instantiate(enemy, spawnPoint.transform.position, transform.rotation));
             yield return new WaitForSeconds(1f);
         }
     }
@@ -62,29 +70,39 @@ public class GameManager : MonoBehaviour
     {
         _currentWave++;
         _activateWave= false;
-        enemyKilled = 0;
+        _currentTime = 0;
     }
 
-    public void FlagEnemyDestroyed()
+    public void FlagEnemyDestroyed(Enemy enemy)
     {
-        enemyKilled++;
-        if(enemyKilled == _currentWave)
+        for (int i = 0; i < _enemyList.Count; i++)
+        {
+            if (_enemyList[i] == enemy) 
+            { 
+                _enemyList.RemoveAt(i);
+                break; 
+            }
+        }        
+        if(_enemyList.Count == 0)
         {
             ChangeWave();
         }
     }
 
-    public void EndGame()
+    public void EndGame(string winOrLose)
     {
-        if (_currentWave == p_waveEnemy + 1)
+        if (winOrLose == "Win")
         {
             Debug.Log("You win");
         }
-        else if (p_lifeGame <= 0)
+        else if (winOrLose == "Lose")
         {
             Debug.Log("You Louse");
         }
     }
 
-    
+    public void ChangeLife(int life)
+    {
+        p_lifeGame += life;
+    }
 }
