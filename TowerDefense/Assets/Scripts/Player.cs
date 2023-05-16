@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     private void Rotation()
     {
         float rotateX = Input.GetAxis("Mouse X");
-        transform.Rotate(0, rotateX * _speedRotation * Time.deltaTime, 0);
+        float rotateY = Input.GetAxis("Mouse Y");
+        transform.Rotate(rotateY * Time.deltaTime, rotateX * Time.deltaTime, 0);
     }
 }
