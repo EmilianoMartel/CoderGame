@@ -11,10 +11,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject spawnPoint;
     [SerializeField] Enemy enemy;
+    [SerializeField] Enemy enemyStrong;
     [SerializeField] int p_lifeGame = 100;
 
     //variables para colocar torres
-    private int gold = 0;
+    public int gold = 300;
 
     //variables para las waves
     [SerializeField] int p_waveEnemy = 10;
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
         {
             INSTANCE = this;
             DontDestroyOnLoad(this);
-        }
+        }        
     }
 
     void Update()
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         {
             EndGame("Lose");
         }
+        UiManager.INSTANCE.ViewGold();
     }
 
     private IEnumerator Waves()
@@ -62,7 +64,12 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < _currentWave+1; i++)
         {
             _enemyList.Add(Instantiate(enemy, spawnPoint.transform.position, transform.rotation));
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.5f);
+            if(i/2 == 0)
+            {
+                _enemyList.Add(Instantiate(enemyStrong, spawnPoint.transform.position, transform.rotation));
+                yield return new WaitForSeconds(1.5f);
+            }
         }
     }
 
@@ -105,4 +112,6 @@ public class GameManager : MonoBehaviour
     {
         p_lifeGame += life;
     }
+
+
 }
