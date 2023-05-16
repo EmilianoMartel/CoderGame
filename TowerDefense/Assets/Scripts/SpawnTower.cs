@@ -14,7 +14,11 @@ public class SpawnTower : MonoBehaviour
     void Update()
     {
         Vector3 distance = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
-        if (distance.magnitude < 2 && Input.GetKeyDown(KeyCode.E) && active == false) Spawn();
+        if (distance.magnitude < 2 && Input.GetKeyDown(KeyCode.E) && active == false && GameManager.INSTANCE.gold >= 100)
+        {
+            Spawn();
+            GameManager.INSTANCE.gold -= 100;
+        }
     }
 
     private void Spawn()
