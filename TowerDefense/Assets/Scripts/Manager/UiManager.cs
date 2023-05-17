@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     public static UiManager INSTANCE;
     [SerializeField] private TMPro.TMP_Text gold;
+    [SerializeField] private Image trainLife;
 
     //Lo convertimos en un Singelton
     private void Awake()
@@ -19,6 +21,17 @@ public class UiManager : MonoBehaviour
         {
             INSTANCE = this;
             DontDestroyOnLoad(this);
+        }
+    }
+    public void Start()
+    {
+        if(gold == null)
+        {
+            gold = GameObject.Find("GoldText")?.GetComponent<TMPro.TMP_Text>();
+        }
+        if (trainLife == null)
+        {
+            trainLife = GameObject.Find("Active")?.GetComponent <Image>();
         }
     }
 
@@ -38,5 +51,12 @@ public class UiManager : MonoBehaviour
     public void ViewGold()
     {
         gold.text = GameManager.INSTANCE.gold.ToString();
+    }
+
+    public void ChangeLifeTrain(float life)
+    {
+        float percent = life / 100;
+        Debug.Log(percent);
+        trainLife.fillAmount = percent;
     }
 }

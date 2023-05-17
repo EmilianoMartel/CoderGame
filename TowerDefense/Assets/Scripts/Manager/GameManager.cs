@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
             EndGame("Lose");
         }
         UiManager.INSTANCE.ViewGold();
+        UiManager.INSTANCE.ChangeLifeTrain(p_lifeGame);
     }
 
     private IEnumerator Waves()
