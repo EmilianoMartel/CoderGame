@@ -1965,7 +1965,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7242486996484518475}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: be425570c9790054ea1c12e865e259bf, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 06a9e421169a0a64588518168dc0980c, type: 3}
   m_Controller: {fileID: 9100000, guid: 76a06e6dac6988041b01d6acf73a9eab, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1989,12 +1989,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88fa83732b92ca64cae6dd0aa3cc051f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 2966817775964533832}
+  _life: 100
+  _speedMovement: 5
   pointView: {fileID: 1751859847304132817}
   player: {fileID: 2956459668020195171, guid: 3013e2b5ee116dc4fa69232ec6e143e1, type: 3}
   train: {fileID: 2316333592283487119, guid: 9a3004a3b119d90469c3ff2ce86db258, type: 3}
-  animator: {fileID: 2966817775964533832}
-  speed: 1
-  life: 10
   _pointDirection: {fileID: 1751859847304132817}
   _rangeTrain: 1
   _layerMask:
