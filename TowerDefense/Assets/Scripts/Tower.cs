@@ -103,6 +103,7 @@ public class Tower : MonoBehaviour
             towerPoint.transform.position = _originTowerPoint;
             pointShoot.transform.rotation = _originRotation;
             towerPoint.transform.rotation = _originTowerRotation;
+            GameManager.INSTANCE.gold += 50;
             animator.SetBool("Shoot", false);
             state = State.Idle;
         }
@@ -127,7 +128,7 @@ public class Tower : MonoBehaviour
             enemy.Damaged(1);
             transform.LookAt(enemy.transform.position);
             actualTime = 0;
-        }        
+        }
     }
 
     private void OnDrawGizmos()

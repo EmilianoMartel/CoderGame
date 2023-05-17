@@ -13,7 +13,6 @@ public class Train : MonoBehaviour
         {
             Debug.Log("a ver");
             _life -= 10;
-            enemy.ArrivedAdTrain();
         }
     }
 }
