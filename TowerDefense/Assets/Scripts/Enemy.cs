@@ -4,15 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public delegate void EnemyEvent(Enemy enemy);
-public class Enemy : MonoBehaviour
+public class Enemy : Character
 {
     public GameObject pointView;
     public EnemyEvent enemyEvent;
     [SerializeField] private Player player;
     [SerializeField] private Train train;
-    [SerializeField] private Animator animator;
-    [SerializeField] private float speed = 1f;
-    [SerializeField] private int life = 100;
     [SerializeField] private GameObject _pointDirection;
     [SerializeField] private float _rangeTrain = 1f;
     [SerializeField] private LayerMask _layerMask;
@@ -21,7 +18,6 @@ public class Enemy : MonoBehaviour
     public static event EnemyEvent OnEnemyDeath;
 
     //variables para la direccion
-    private Vector3 _direction = new Vector3();
     [SerializeField] private EnemyWay enemyWay;
     private int currentIndex;
 
@@ -43,13 +39,13 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        Vector3 destination = enemyWay.GetWaipointPosition(currentIndex);
+        Move(destination);
     }
 
-    private void Move()
-    {
-        Vector3 destination = enemyWay.GetWaipointPosition(currentIndex);
-        transform.position += (destination - transform.position).normalized * speed * Time.deltaTime;
+    protected override void Move(Vector3 destination)
+    {        
+        transform.position += (destination - transform.position).normalized * _speedMovement * Time.deltaTime;
         if (Vector3.Distance(transform.position, destination) <= 1)
         {
             currentIndex++;
@@ -59,15 +55,10 @@ public class Enemy : MonoBehaviour
         animator.SetBool("Move", true);
     }
 
-    public void ArrivedAdTrain()
+    public override void Damaged(int damage)
     {
-        Destroy(gameObject);
-    }
-
-    public void Damaged(int damage)
-    {
-        life -= damage;
-        if (life <= 0)
+        _currentLife -= damage;
+        if (_currentLife <= 0)
         {
             EnemyKilled(this);
         }
@@ -79,10 +70,9 @@ public class Enemy : MonoBehaviour
         if (OnEnemyDeath != null)
         {
             OnEnemyDeath(this);
-        }
-        GameManager.INSTANCE.gold += 50;
+        }        
         GameManager.INSTANCE.FlagEnemyDestroyed(this);
-        Destroy(gameObject);
+        Death();
     }
 
     public void OnTrain()

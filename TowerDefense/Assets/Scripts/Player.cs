@@ -4,37 +4,38 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private float _speed = 1.0f;
-    [SerializeField] private int _life = 100;
-    [SerializeField] private float _speedRotation = 1.0f;
+    [SerializeField] private float _sensitivity = 0.5f;
+    [SerializeField] private float _rotationY = 0f;
 
     void Update()
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            animator.SetBool("Move", true);
-            Move();
+            PlayerMove();
         } else
         {
-            animator.SetBool("Move", false);
+            animator.SetBool("Move",false);
         }
         Rotation();
     }
 
-    private void Move()
+    private void PlayerMove()
     {
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
-        transform.Translate(movementX * _speed * Time.deltaTime, 0 ,movementZ * _speed * Time.deltaTime);
+        Vector3 direction = new Vector3(movementX, 0, movementZ);
+        Move(direction);        
     }
 
     private void Rotation()
     {
-        float rotateX = Input.GetAxis("Mouse X");
-        float rotateY = Input.GetAxis("Mouse Y");
-        transform.Rotate(rotateY * Time.deltaTime, rotateX * Time.deltaTime, 0);
+        float mouseX = Input.GetAxis("Mouse X");
+
+        _rotationY += mouseX * _sensitivity;
+
+        transform.rotation = Quaternion.Euler(0f, _rotationY, 0f);
+
     }
 }
