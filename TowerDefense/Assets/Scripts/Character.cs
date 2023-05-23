@@ -5,33 +5,44 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    //variables iniciales
+    [SerializeField] protected CharacterData characterData;
     [SerializeField] protected Animator animator;
-    [SerializeField] protected float _speedMovement = 1.0f;
-    [SerializeField] private int _maxLife = 100;
+    [SerializeField] protected float m_currentLife;
 
-    [SerializeField] protected int _currentLife;
+    //variables para que no se mueva del piso
+    [SerializeField] protected int m_groundDistance;
+    [SerializeField] protected LayerMask m_groundMask;
+
+    private void FixedUpdate()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, m_groundDistance, m_groundMask))
+        {
+            transform.position = hit.point + Vector3.up * 0.1f;
+        }
+    }
 
     private void Start()
     {
-        _currentLife = _maxLife;
+        Debug.Log(characterData.maxLife);
+        m_currentLife = characterData.maxLife;
     }
 
     protected virtual void Move(Vector3 direction)
     {
-        transform.Translate(direction * _speedMovement * Time.deltaTime);
+        transform.Translate(direction * characterData.speedMovement * Time.deltaTime);
         animator.SetBool("Move", true);
     }
 
     protected void Heald(int heald)
     {
-        _currentLife += heald;
+        m_currentLife += heald;
     }
 
-    public virtual void Damaged(int damage)
+    public virtual void Damaged(float damage)
     {
-        _currentLife -= damage;
-        if (_currentLife <= 0)
+        m_currentLife -= damage;
+        if (m_currentLife < 0)
         {
             Death();
         }
