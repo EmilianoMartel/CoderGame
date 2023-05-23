@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
             if (_enemyList[i] == enemy) 
             { 
                 _enemyList.RemoveAt(i);
-                break; 
+                break;
             }
         }        
         if(_enemyList.Count == 0)
@@ -113,6 +113,4 @@ public class GameManager : MonoBehaviour
     {
         p_lifeGame += life;
     }
-
-
 }

@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//evento cuando muere para avisar a las torretas
 public delegate void EnemyEvent(Enemy enemy);
 public class Enemy : Character
-{
+{    
     public GameObject pointView;
     public EnemyEvent enemyEvent;
+
+    //datos iniciales
+
+
     [SerializeField] private Player player;
     [SerializeField] private Train train;
     [SerializeField] private GameObject _pointDirection;
     [SerializeField] private float _rangeTrain = 1f;
-    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private LayerMask m_layerMask;
 
     //variables cuando muere
     public static event EnemyEvent OnEnemyDeath;
@@ -24,7 +29,7 @@ public class Enemy : Character
     void FixedUpdate()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_pointDirection.transform.position, transform.TransformDirection(Vector3.forward), out hit, _rangeTrain, _layerMask))
+        if (Physics.Raycast(_pointDirection.transform.position, transform.TransformDirection(Vector3.forward), out hit, _rangeTrain, m_layerMask))
         {
             OnTrain();
         }
@@ -41,11 +46,12 @@ public class Enemy : Character
     {
         Vector3 destination = enemyWay.GetWaipointPosition(currentIndex);
         Move(destination);
+        Debug.Log(m_currentLife);
     }
 
     protected override void Move(Vector3 destination)
     {        
-        transform.position += (destination - transform.position).normalized * _speedMovement * Time.deltaTime;
+        transform.position += (destination - transform.position).normalized * characterData.speedMovement * Time.deltaTime;
         if (Vector3.Distance(transform.position, destination) <= 1)
         {
             currentIndex++;
@@ -55,10 +61,11 @@ public class Enemy : Character
         animator.SetBool("Move", true);
     }
 
-    public override void Damaged(int damage)
+    public override void Damaged(float damage)
     {
-        _currentLife -= damage;
-        if (_currentLife <= 0)
+        m_currentLife -= damage;
+
+        if (m_currentLife < 0)
         {
             EnemyKilled(this);
         }
@@ -70,7 +77,7 @@ public class Enemy : Character
         if (OnEnemyDeath != null)
         {
             OnEnemyDeath(this);
-        }        
+        }
         GameManager.INSTANCE.FlagEnemyDestroyed(this);
         Death();
     }

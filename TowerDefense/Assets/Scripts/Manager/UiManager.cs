@@ -56,7 +56,6 @@ public class UiManager : MonoBehaviour
     public void ChangeLifeTrain(float life)
     {
         float percent = life / 100;
-        Debug.Log(percent);
         trainLife.fillAmount = percent;
     }
 }

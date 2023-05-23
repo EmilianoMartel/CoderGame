@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Tower : MonoBehaviour
+public class Tower : MonoBehaviour, IColorChangeable
 {
     //variables maquina de estado
     public enum State
@@ -12,6 +12,7 @@ public class Tower : MonoBehaviour
         Idle,
         Shoot
     }
+
     [SerializeField] private State state;
         
     [SerializeField] Animator animator;
@@ -24,9 +25,10 @@ public class Tower : MonoBehaviour
     [SerializeField] GameObject towerPoint;
     private Vector3 _directionShoot => new Vector3(pointShoot.transform.position.x - towerPoint.transform.position.x, 0f , pointShoot.transform.position.z - towerPoint.transform.position.z);
     
-    //variables para el shoot rate
+    //variables para el daño
     private float actualTime=5;
-    [SerializeField] int shootingSpeed = 5;
+    [SerializeField] float m_shootingSpeed = 5;
+    [SerializeField] float m_damage = 1;
 
     //variables estado original
     private Vector3 _originTransform = new Vector3();
@@ -65,7 +67,7 @@ public class Tower : MonoBehaviour
                     animator.SetBool("Shoot", false);
                     break;
                 }
-            case State.Shoot:                
+            case State.Shoot:
                 Shoot();
                 Vector3 distance = enemy.transform.position - transform.position;
                 if(distance.magnitude > range || enemy == null)
@@ -114,18 +116,19 @@ public class Tower : MonoBehaviour
         actualTime += Time.deltaTime;
     }
 
-    private void Upgrade()
+    public void Upgrade()
     {
-
+        m_shootingSpeed -= 0.2f;
+        m_damage += 2;
     }
 
     private void Shoot()
     {
-        if(actualTime > shootingSpeed)
+        if(actualTime > m_shootingSpeed)
         {
             animator.SetBool("Shoot", true);
             state = State.Shoot;
-            enemy.Damaged(1);
+            enemy.Damaged(m_damage);
             transform.LookAt(enemy.transform.position);
             actualTime = 0;
         }
@@ -135,5 +138,10 @@ public class Tower : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(pointShoot.transform.position, _directionShoot);
+    }
+
+    public void ChangeColor(bool isObserved)
+    {
+        throw new System.NotImplementedException();
     }
 }
