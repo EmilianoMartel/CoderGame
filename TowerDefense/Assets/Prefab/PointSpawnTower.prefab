@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2789430007447587172}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2394985559221034293}
   - component: {fileID: 2789430007775560679}
-  m_Layer: 0
+  - component: {fileID: 5262341508457851601}
+  m_Layer: 7
   m_Name: PointSpawnTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,8 +79,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 2789430007447587175}
+  plataform: {fileID: 7965130155435004425}
   tower: {fileID: 7109271040660228728, guid: 8008cb11194bd93498fd7c211bdc6d63, type: 3}
-  player: {fileID: 2956459668020195171, guid: 3013e2b5ee116dc4fa69232ec6e143e1, type: 3}
+  player: {fileID: 2280756439325099942, guid: 3013e2b5ee116dc4fa69232ec6e143e1, type: 3}
+--- !u!65 &5262341508457851601
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3060022231766599567}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2760662, y: 1.5035914, z: 1.0590401}
+  m_Center: {x: -0.0011233687, y: 0.2517957, z: -0.029520035}
 --- !u!1 &7965130155435004425
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +106,7 @@ GameObject:
   - component: {fileID: 8836752237576501934}
   - component: {fileID: 1183730860944413366}
   - component: {fileID: 7001851917325759603}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: platform_large
   m_TagString: Untagged
   m_Icon: {fileID: 0}

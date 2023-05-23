@@ -1989,17 +1989,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88fa83732b92ca64cae6dd0aa3cc051f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterData: {fileID: 11400000, guid: 2b58b85d7995d984a8dbc6883a321e13, type: 2}
   animator: {fileID: 2966817775964533832}
-  _life: 100
-  _speedMovement: 5
+  m_currentLife: 0
+  m_groundDistance: 0
+  m_groundMask:
+    serializedVersion: 2
+    m_Bits: 512
   pointView: {fileID: 1751859847304132817}
-  player: {fileID: 2956459668020195171, guid: 3013e2b5ee116dc4fa69232ec6e143e1, type: 3}
+  player: {fileID: 2280756439325099942, guid: 3013e2b5ee116dc4fa69232ec6e143e1, type: 3}
   train: {fileID: 2316333592283487119, guid: 9a3004a3b119d90469c3ff2ce86db258, type: 3}
   _pointDirection: {fileID: 1751859847304132817}
   _rangeTrain: 1
-  _layerMask:
+  m_layerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   enemyWay: {fileID: 4529577253943515357, guid: 0d5b21174164eff43a5030651e4d4ae3, type: 3}
 --- !u!54 &4587647153844188942
 Rigidbody:
