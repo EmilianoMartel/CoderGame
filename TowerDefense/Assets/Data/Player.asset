@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMovement: 5
   maxLife: 100
+  attackPoint:
+    serializedVersion: 2
+    m_Bits: 64
+  damage: 10
+  distanceAttack: 2
