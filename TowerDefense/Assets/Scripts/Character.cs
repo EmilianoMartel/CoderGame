@@ -13,6 +13,11 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected int m_groundDistance;
     [SerializeField] protected LayerMask m_groundMask;
 
+    //variables para el ataque
+    [SerializeField] protected Character attackCharacter;
+    [SerializeField] protected Tower attackTower;
+    [SerializeField] protected GameObject m_pointView;
+
     private void FixedUpdate()
     {
         RaycastHit hit;
@@ -50,7 +55,21 @@ public abstract class Character : MonoBehaviour
 
     protected void Attack()
     {
-
+        RaycastHit hit;
+        if (Physics.Raycast(m_pointView.transform.position, m_pointView.transform.TransformDirection(Vector3.forward), out hit, characterData.distanceAttack, characterData.attackPoint))
+        {
+            if (hit.transform.GetComponent<Character>())
+            {
+                attackCharacter = hit.transform.GetComponent<Character>();
+                attackCharacter.Damaged(characterData.damage);
+                animator.SetBool("AttackBool", true);
+            }
+            else if (hit.transform.GetComponent<Tower>())
+            {
+                attackTower = hit.transform.GetComponent<Tower>();
+                attackTower.life -= characterData.damage;
+            }
+        }
     }
 
     protected void Death()
