@@ -8,7 +8,7 @@ public class CharacterData : ScriptableObject
     [SerializeField] public float maxLife = 100;
 
     //variables para el ataque
-    [SerializeField] public LayerMask attackPoint;
+    [SerializeField] public LayerMask attackPointMask;
     [SerializeField] public float damage;
     [SerializeField] public float distanceAttack;
 }

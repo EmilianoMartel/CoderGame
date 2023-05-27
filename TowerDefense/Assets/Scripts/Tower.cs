@@ -4,7 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Tower : MonoBehaviour, IColorChangeable
+//tower puede heredar de Character??
+public class Tower : Character, IColorChangeable
 {
     //variables maquina de estado
     public enum State
@@ -14,33 +15,25 @@ public class Tower : MonoBehaviour, IColorChangeable
     }
 
     [SerializeField] private State state;
-        
-    [SerializeField] Animator animator;
 
-    //variables para el raycast
-    [SerializeField] float range = 10f;
-    [SerializeField] Enemy enemy;
-    [SerializeField] LayerMask enemyMask;
-    [SerializeField] GameObject pointShoot;
-    [SerializeField] GameObject towerPoint;
-    private Vector3 _directionShoot => new Vector3(pointShoot.transform.position.x - towerPoint.transform.position.x, 0f , pointShoot.transform.position.z - towerPoint.transform.position.z);
-    
+    [SerializeField] public float life = 100f;
+
     //variables para el daño
     private float actualTime=5;
     [SerializeField] float m_shootingSpeed = 5;
-    [SerializeField] float m_damage = 1;
 
     //variables estado original
+    [SerializeField] GameObject towerPoint;
     private Vector3 _originTransform = new Vector3();
     private Vector3 _originTowerPoint = new Vector3();
     private Quaternion _originRotation;
     private Quaternion _originTowerRotation;
 
-    private void Awake()
+    private void Start()
     {
-        _originTransform = pointShoot.transform.position;
+        _originTransform = m_pointView.transform.position;
         _originTowerPoint = towerPoint.transform.position;
-        _originRotation = pointShoot.transform.rotation;
+        _originRotation = m_pointView.transform.rotation;
         _originTowerRotation = towerPoint.transform.rotation;
     }
 
@@ -56,27 +49,27 @@ public class Tower : MonoBehaviour, IColorChangeable
         switch (state)
         {
             case State.Idle:
-                if (Physics.Raycast(pointShoot.transform.position, _directionShoot, out hit, range, enemyMask))
+                if (Physics.Raycast(m_pointView.transform.position, m_pointView.transform.TransformDirection(Vector3.forward), out hit, characterData.distanceAttack, characterData.attackPointMask))
                 {
-                    enemy = hit.transform.GetComponent<Enemy>();
+                    attackCharacter = hit.transform.GetComponent<Enemy>();
                     Shoot();
                     break;
                 }
                 else
                 {
-                    animator.SetBool("Shoot", false);
+                    animator.SetBool("AttackBool", false);
                     break;
                 }
             case State.Shoot:
                 Shoot();
-                Vector3 distance = enemy.transform.position - transform.position;
-                if(distance.magnitude > range || enemy == null)
+                Vector3 distance = attackCharacter.transform.position - transform.position;
+                if(distance.magnitude > characterData.distanceAttack || attackCharacter == null)
                 {
-                    pointShoot.transform.position = _originTransform;
+                    m_pointView.transform.position = _originTransform;
                     towerPoint.transform.position = _originTowerPoint;
-                    pointShoot.transform.rotation = _originRotation;
+                    m_pointView.transform.rotation = _originRotation;
                     towerPoint.transform.rotation = _originTowerRotation;
-                    animator.SetBool("Shoot", false);
+                    animator.SetBool("AttackBool", false);
                     state = State.Idle;
                     break;
                 }
@@ -98,12 +91,12 @@ public class Tower : MonoBehaviour, IColorChangeable
 
     private void OnEnemyDeathHandler(Enemy enemy)
     {
-        if (enemy == this.enemy)
+        if (enemy == this.attackCharacter)
         {
             //si el enemigo muerto es el que estamos apuntando, volvemos al estado Idle
-            pointShoot.transform.position = _originTransform;
+            m_pointView.transform.position = _originTransform;
             towerPoint.transform.position = _originTowerPoint;
-            pointShoot.transform.rotation = _originRotation;
+            m_pointView.transform.rotation = _originRotation;
             towerPoint.transform.rotation = _originTowerRotation;
             GameManager.INSTANCE.gold += 50;
             animator.SetBool("Shoot", false);
@@ -119,25 +112,19 @@ public class Tower : MonoBehaviour, IColorChangeable
     public void Upgrade()
     {
         m_shootingSpeed -= 0.2f;
-        m_damage += 2;
+        characterData.damage += 2;
     }
 
     private void Shoot()
     {
         if(actualTime > m_shootingSpeed)
         {
-            animator.SetBool("Shoot", true);
-            state = State.Shoot;
-            enemy.Damaged(m_damage);
-            transform.LookAt(enemy.transform.position);
+            Attack();
+            animator.SetBool("AttackBool", true);
+            state = State.Shoot;            
+            transform.LookAt(attackCharacter.transform.position);
             actualTime = 0;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(pointShoot.transform.position, _directionShoot);
     }
 
     public void ChangeColor(bool isObserved)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4551531270332263228}
   - component: {fileID: 4686850309353568620}
   - component: {fileID: 7893073145178459368}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: turret_single
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1530171424028286176}
   - component: {fileID: 8910702515743541992}
   - component: {fileID: 9081637420123123954}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6310925551492358291}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PointShoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 7109271040660228728}
   - component: {fileID: -6528927023163741729}
   - component: {fileID: 3453440847461496516}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,15 +250,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1c5fa197c953a4ba66c9a3404bfc82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  characterData: {fileID: 11400000, guid: 87575ab356f6144428274ae3d2c85d3e, type: 2}
   animator: {fileID: 3453440847461496516}
-  range: 10
-  enemyMask:
+  m_currentLife: 0
+  m_groundDistance: 0
+  m_groundMask:
     serializedVersion: 2
-    m_Bits: 64
-  pointShoot: {fileID: 6246908401940668064}
+    m_Bits: 512
+  attackCharacter: {fileID: 0}
+  m_pointView: {fileID: 6246908401940668064}
+  state: 0
+  life: 100
+  m_shootingSpeed: 5
   towerPoint: {fileID: 3522522650059122728}
-  shootingSpeed: 5
 --- !u!65 &-6528927023163741729
 BoxCollider:
   m_ObjectHideFlags: 0
