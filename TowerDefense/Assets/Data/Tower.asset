@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 887c7327de561944a9aa9f7d4fc6b5e5, type: 3}
-  m_Name: Player
+  m_Name: Tower
   m_EditorClassIdentifier: 
-  speedMovement: 5
+  speedMovement: 1
   maxLife: 100
   attackPointMask:
     serializedVersion: 2
-    m_Bits: 64
-  damage: 10
-  distanceAttack: 2
+    m_Bits: 320
+  damage: 2
+  distanceAttack: 10
