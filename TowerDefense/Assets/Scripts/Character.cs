@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected Character attackCharacter;
     [SerializeField] protected GameObject m_pointView;
 
+    //variables originales y del feedback
+    [SerializeField] private ParticleSystem m_damageParticle;
+    [SerializeField] private GameObject m_bodyDamage;
+    private Color m_color;    
+
     private void FixedUpdate()
     {
         RaycastHit hit;
@@ -28,7 +34,7 @@ public abstract class Character : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(characterData.maxLife);
+        m_color = m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color;
         m_currentLife = characterData.maxLife;
     }
 
@@ -45,6 +51,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Damaged(float damage)
     {
+        //StartCoroutine(FeedBackDamage());
         m_currentLife -= damage;
         if (m_currentLife < 0)
         {
@@ -70,5 +77,14 @@ public abstract class Character : MonoBehaviour
     {
         animator.SetBool("Die",true);
         Destroy(gameObject);
+    }
+
+    private IEnumerator FeedBackDamage()
+    {
+        m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
+        m_damageParticle.Play();
+        yield return new WaitForSeconds(0.50f);
+        m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
+        m_damageParticle.Stop();
     }
 }
