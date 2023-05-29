@@ -6,12 +6,8 @@ using UnityEngine;
 //evento cuando muere para avisar a las torretas
 public delegate void EnemyEvent(Enemy enemy);
 public class Enemy : Character
-{    
-    public GameObject pointView;
+{
     public EnemyEvent enemyEvent;
-
-    //datos iniciales
-
 
     [SerializeField] private Player player;
     [SerializeField] private Train train;
@@ -25,6 +21,9 @@ public class Enemy : Character
     //variables para la direccion
     [SerializeField] private EnemyWay enemyWay;
     private int currentIndex;
+
+    //variables para el movimiento
+    protected bool m_Move = true;
 
     void FixedUpdate()
     {
@@ -40,13 +39,16 @@ public class Enemy : Character
         train = GameObject.FindObjectOfType<Train>();
         enemyWay = GameObject.FindObjectOfType<EnemyWay>();
         currentIndex = 0;
+        m_currentLife = characterData.maxLife;
     }
 
     private void Update()
     {
-        Vector3 destination = enemyWay.GetWaipointPosition(currentIndex);
-        Move(destination);
-        Debug.Log(m_currentLife);
+        if(currentIndex + 1 <= enemyWay.Points.Length && m_Move == true) 
+        {
+            Vector3 destination = enemyWay.GetWaipointPosition(currentIndex);
+            Move(destination);
+        }
     }
 
     protected override void Move(Vector3 destination)
