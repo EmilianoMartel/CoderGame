@@ -16,8 +16,6 @@ public class Tower : Character, IColorChangeable
 
     [SerializeField] private State state;
 
-    [SerializeField] public float life = 100f;
-
     //variables para el daño
     private float actualTime=5;
     [SerializeField] float m_shootingSpeed = 5;
@@ -31,6 +29,7 @@ public class Tower : Character, IColorChangeable
 
     private void Start()
     {
+        m_currentLife = characterData.maxLife;
         _originTransform = m_pointView.transform.position;
         _originTowerPoint = towerPoint.transform.position;
         _originRotation = m_pointView.transform.rotation;
