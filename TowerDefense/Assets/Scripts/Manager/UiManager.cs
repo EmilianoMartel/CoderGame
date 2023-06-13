@@ -9,6 +9,7 @@ public class UiManager : MonoBehaviour
     public static UiManager INSTANCE;
     [SerializeField] private TMPro.TMP_Text gold;
     [SerializeField] private Image trainLife;
+    [SerializeField] private Image waveTimer;
 
     //Lo convertimos en un Singelton
     private void Awake()
@@ -23,29 +24,17 @@ public class UiManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
+
     public void Start()
     {
-        if(gold == null)
+        if (gold == null)
         {
             gold = GameObject.Find("GoldText")?.GetComponent<TMPro.TMP_Text>();
         }
         if (trainLife == null)
         {
-            trainLife = GameObject.Find("Active")?.GetComponent <Image>();
+            trainLife = GameObject.Find("Active")?.GetComponent<Image>();
         }
-    }
-
-    public void ChangeScene(string name)
-    {
-        SceneManager.LoadScene(name);
-    }
-    public void Close()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
     }
 
     public void ViewGold()
@@ -57,5 +46,18 @@ public class UiManager : MonoBehaviour
     {
         float percent = life / 100;
         trainLife.fillAmount = percent;
+    }
+
+    public void ChangeTimer(float percent)
+    {
+        if (percent >= 1)
+        {
+            waveTimer.enabled= false;
+        }
+        else
+        {
+            waveTimer.enabled = true;
+            waveTimer.fillAmount = percent;
+        }
     }
 }
