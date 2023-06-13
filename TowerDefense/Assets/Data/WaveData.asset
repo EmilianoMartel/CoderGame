@@ -12,15 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14d2c05d9793574d9d0971f3ae06ac2, type: 3}
   m_Name: WaveData
   m_EditorClassIdentifier: 
-  enemy: {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   enemyStrong: {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  enemy: {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   enemyAttacker: {fileID: 0}
   enemyTotalList:
   - {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   - {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   - {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   - {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
-  - {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
-  p_waveEnemy: 0
-  p_timeRest: 0
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
+  p_waveEnemy: 10
+  p_timeRest: 30
