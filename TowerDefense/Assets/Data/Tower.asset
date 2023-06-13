@@ -16,6 +16,6 @@ MonoBehaviour:
   maxLife: 100
   attackPointMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 64
   damage: 2
   distanceAttack: 10
