@@ -28,7 +28,7 @@ public abstract class Character : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, m_groundDistance, m_groundMask))
         {
-            transform.position = hit.point + Vector3.up * 0.1f;
+            transform.position = hit.point + Vector3.down * 0.1f;
         }
     }
 
@@ -51,11 +51,12 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Damaged(float damage)
     {
-        //StartCoroutine(FeedBackDamage());
+        StartCoroutine(FeedBackDamage());
         m_currentLife -= damage;
         if (m_currentLife < 0)
         {
-            Death();
+            animator.SetBool("Move", false);
+            animator.SetBool("Die", true);
         }
     }
 
@@ -73,18 +74,22 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    protected void Death()
+    private void AttackAnimation()
     {
-        animator.SetBool("Die",true);
+        animator.SetBool("AttackBool", false);
+    }
+
+    protected void Death()
+    {        
         Destroy(gameObject);
     }
 
-    private IEnumerator FeedBackDamage()
+    protected IEnumerator FeedBackDamage()
     {
         m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
         m_damageParticle.Play();
         yield return new WaitForSeconds(0.50f);
-        m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
+        m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = m_color;
         m_damageParticle.Stop();
     }
 }

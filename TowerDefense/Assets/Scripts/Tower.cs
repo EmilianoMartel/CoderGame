@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-//tower puede heredar de Character??
 public class Tower : Character, IColorChangeable
 {
     //variables maquina de estado
@@ -19,6 +18,9 @@ public class Tower : Character, IColorChangeable
     //variables para el daño
     private float actualTime=5;
     [SerializeField] float m_shootingSpeed = 5;
+
+    //variable de feedback de upgrade
+    [SerializeField] GameObject m_body;
 
     //variables estado original
     [SerializeField] GameObject towerPoint;
@@ -44,7 +46,6 @@ public class Tower : Character, IColorChangeable
     private void FixedUpdate()
     {
         RaycastHit hit;
-
         switch (state)
         {
             case State.Idle:
@@ -52,40 +53,33 @@ public class Tower : Character, IColorChangeable
                 {
                     attackCharacter = hit.transform.GetComponent<Enemy>();
                     Shoot();
+                    Enemy.OnEnemyDeath += OnEnemyDeathHandler;
                     break;
                 }
                 else
                 {
+                    state = State.Idle;
                     animator.SetBool("AttackBool", false);
                     break;
                 }
             case State.Shoot:
-                Shoot();
-                Vector3 distance = attackCharacter.transform.position - transform.position;
-                if(distance.magnitude > characterData.distanceAttack || attackCharacter == null)
+                if (attackCharacter != null)
                 {
-                    m_pointView.transform.position = _originTransform;
-                    towerPoint.transform.position = _originTowerPoint;
-                    m_pointView.transform.rotation = _originRotation;
-                    towerPoint.transform.rotation = _originTowerRotation;
-                    animator.SetBool("AttackBool", false);
-                    state = State.Idle;
-                    break;
-                }
+                    Shoot();
+                    Vector3 distance = attackCharacter.transform.position - transform.position;
+                    if (distance.magnitude > characterData.distanceAttack || attackCharacter == null)
+                    {
+                        m_pointView.transform.position = _originTransform;
+                        towerPoint.transform.position = _originTowerPoint;
+                        m_pointView.transform.rotation = _originRotation;
+                        towerPoint.transform.rotation = _originTowerRotation;
+                        animator.SetBool("AttackBool", false);
+                        state = State.Idle;
+                        break;
+                    }
+                }                
                 break;
         }
-    }
-
-    private void OnEnable()
-    {
-        //activamos el evento OnEnemyDeath del enemigo
-        Enemy.OnEnemyDeath += OnEnemyDeathHandler;
-    }
-
-    private void OnDisable()
-    {
-        //desactivamos el evento OnEnemyDeath del enemigo
-        Enemy.OnEnemyDeath -= OnEnemyDeathHandler;
     }
 
     private void OnEnemyDeathHandler(Enemy enemy)
@@ -97,9 +91,10 @@ public class Tower : Character, IColorChangeable
             towerPoint.transform.position = _originTowerPoint;
             m_pointView.transform.rotation = _originRotation;
             towerPoint.transform.rotation = _originTowerRotation;
-            GameManager.INSTANCE.gold += 50;
-            animator.SetBool("Shoot", false);
+            animator.SetBool("AttackBool", false);
             state = State.Idle;
+            attackCharacter = null;
+            Enemy.OnEnemyDeath -= OnEnemyDeathHandler;
         }
     }
 
@@ -110,6 +105,7 @@ public class Tower : Character, IColorChangeable
 
     public void Upgrade()
     {
+        m_body.GetComponent<MeshRenderer>().material.color = Color.blue;
         m_shootingSpeed -= 0.2f;
         characterData.damage += 2;
     }
@@ -120,8 +116,8 @@ public class Tower : Character, IColorChangeable
         {
             Attack();
             animator.SetBool("AttackBool", true);
-            state = State.Shoot;            
-            transform.LookAt(attackCharacter.transform.position);
+            state = State.Shoot;
+            //transform.LookAt(attackCharacter.transform.position);
             actualTime = 0;
         }
     }

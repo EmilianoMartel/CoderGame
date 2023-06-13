@@ -5,10 +5,9 @@ using UnityEngine;
 
 //evento cuando muere para avisar a las torretas
 public delegate void EnemyEvent(Enemy enemy);
+
 public class Enemy : Character
 {
-    public EnemyEvent enemyEvent;
-
     [SerializeField] private Player player;
     [SerializeField] private Train train;
     [SerializeField] private GameObject _pointDirection;
@@ -52,7 +51,7 @@ public class Enemy : Character
     }
 
     protected override void Move(Vector3 destination)
-    {        
+    {
         transform.position += (destination - transform.position).normalized * characterData.speedMovement * Time.deltaTime;
         if (Vector3.Distance(transform.position, destination) <= 1)
         {
@@ -65,28 +64,26 @@ public class Enemy : Character
 
     public override void Damaged(float damage)
     {
-        m_currentLife -= damage;
-
+        StartCoroutine(FeedBackDamage());
         if (m_currentLife < 0)
         {
-            EnemyKilled(this);
+            EnemyKilled();
         }
     }
 
-    public void EnemyKilled(Enemy enemy)
+    public void EnemyKilled()
     {
-        //llamamos al evento OnEnemyDeath para notificar a la torre de que este enemigo ha muerto
-        if (OnEnemyDeath != null)
-        {
-            OnEnemyDeath(this);
-        }
-        GameManager.INSTANCE.FlagEnemyDestroyed(this);
-        Death();
+        GameManager.INSTANCE.gold += 50;
+        animator.SetBool("Move", false);
+        m_Move = false;
+        animator.SetBool("Die", true);
+        OnEnemyDeath?.Invoke(this);
     }
 
     public void OnTrain()
     {
         GameManager.INSTANCE.ChangeLife(-10);
-        EnemyKilled(this);
+        OnEnemyDeath?.Invoke(this);
+        Destroy(gameObject);
     }
 }

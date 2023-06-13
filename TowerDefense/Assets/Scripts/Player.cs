@@ -3,44 +3,29 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 
-public class Player : Character
+public class Player : MonoBehaviour
 {
-    [SerializeField] private float _sensitivity = 0.5f;
-    [SerializeField] private float _rotationY = 0f;
+    private Camera _camera;
+
+    [SerializeField] public float speedMovement = 1.0f;
 
     [SerializeField] private LayerMask m_spawnTowerMask;
     [SerializeField] private int m_rangeLayer;
     private SpawnTower spawn;
 
+    private void Start()
+    {
+        _camera = Camera.main;
+    }
 
     void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-        {
-            PlayerMove();
-        }
-        else
-        {
-            animator.SetBool("Move", false);
-        }
-        Rotation();
-    }
-
-    private void FixedUpdate()
-    {
-        CheckSpawnTowerCollision();
-        if (Input.GetMouseButtonUp(0))
-        {
-            Attack();            
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.forward));
+        PlayerMove();
+        if(spawn != null) SpawnOrUpgradeTower();
+        ClickMouseDraw();
     }
 
     private void PlayerMove()
@@ -48,36 +33,27 @@ public class Player : Character
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(movementX, 0, movementZ);
-        Move(direction);
+        transform.Translate(direction * speedMovement * Time.deltaTime); ;
     }
 
-    private void Rotation()
-    {
-        float mouseX = Input.GetAxis("Mouse X");
-
-        _rotationY += mouseX * _sensitivity;
-
-        transform.rotation = Quaternion.Euler(0f, _rotationY, 0f);
-
-    }
-    private void CheckSpawnTowerCollision()
-    {
+    private void CheckSpawnTowerCollision(Ray ray)
+    {                
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, m_rangeLayer, m_spawnTowerMask))
+        if (Physics.Raycast(ray, out hit, m_rangeLayer, m_spawnTowerMask))
         {
-            var hitSpawnTower = hit.transform.GetComponent<SpawnTower>();
+            SpawnTower hitSpawnTower = hit.transform.GetComponent<SpawnTower>();
             if (hitSpawnTower != null)
             {
-                spawn = hitSpawnTower;
-                spawn.ChangeColor(true);
-            }
-            if (Input.GetKey(KeyCode.E) && spawn.m_active == false && GameManager.INSTANCE.gold >= 100)
-            {
-                spawn.Spawn();
-                var collider = GetComponent<Collider>();
-                if (collider != null)
+                if(spawn == null)
                 {
-                    collider.enabled = false;
+                    spawn = hitSpawnTower;
+                    spawn.ChangeColor(true);
+                }
+                else
+                {
+                    spawn.ChangeColor(false);
+                    spawn = hitSpawnTower;
+                    spawn.ChangeColor(true);
                 }
             }
         }
@@ -87,6 +63,34 @@ public class Player : Character
             {
                 spawn.ChangeColor(false);
             }
+        }
+    }
+
+    private void ClickMouseDraw()
+    {
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckSpawnTowerCollision(_camera.ScreenPointToRay(Input.mousePosition));    
+        }
+    }
+
+    private void SpawnOrUpgradeTower()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && spawn.m_active == false && GameManager.INSTANCE.gold >= 100)
+        {
+            spawn.SpawnShootTower();
+        }else if (Input.GetKeyDown(KeyCode.E) && spawn.m_active == true && GameManager.INSTANCE.gold >= 50)
+        {
+            spawn.UpgradeTowerShooter();
+        }else if (Input.GetKeyDown(KeyCode.Q) && spawn.m_active == false && GameManager.INSTANCE.gold >= 50)
+        {
+            spawn.SpawnAreaTower();
+        }
+        else if(Input.GetKeyDown(KeyCode.Q) && spawn.m_active == true && GameManager.INSTANCE.gold >= 25)
+        {
+            spawn.UpgradeAreaShooter();
         }
     }
 }
