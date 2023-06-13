@@ -6,22 +6,22 @@ public class EnemyAttacker : Enemy
 {
     //variable movimiento ataque
     private Vector3 m_AttackPoint = Vector3.zero;
+    private Character character;
 
     void FixedUpdate()
     {
         if (m_Move == true)
         {
-            DetectAttackPioint();
+            DetectAttackPoint();
         }
         else
         {
-            Debug.Log("ataco torreta");
-            Attack();
+            SearchAttackPoint();
         }
     }
 
     //funciona
-    private void DetectAttackPioint()
+    private void DetectAttackPoint()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10f, characterData.attackPointMask);
 
@@ -29,11 +29,11 @@ public class EnemyAttacker : Enemy
         {
             if(hitCollider.transform.GetComponent<Character>() != null)
             {
-                Character character = hitCollider.transform.GetComponent<Character>();
+                character = hitCollider.transform.GetComponent<Character>();
                 Debug.Log(character.gameObject.layer);
                 Debug.Log(characterData.attackPointMask);
                 if (characterData.attackPointMask != character.gameObject.layer)
-                {                    
+                {
                     attackCharacter = hitCollider.transform.GetComponent<Character>();
                     m_Move = false;
                     Debug.Log("Loveo");
@@ -47,5 +47,11 @@ public class EnemyAttacker : Enemy
         }
     }
 
-
+    private void SearchAttackPoint()
+    {
+        Debug.Log(character.transform.position);
+        Vector3 direction = (character.transform.position - gameObject.transform.position).normalized;
+        base.Move(direction);
+        animator.SetBool("Move", true);
+    }
 }

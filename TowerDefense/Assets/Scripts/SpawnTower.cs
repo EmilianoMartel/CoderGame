@@ -12,27 +12,39 @@ public interface IColorChangeable
 }
 public class SpawnTower : MonoBehaviour,IColorChangeable
 {
-
     [SerializeField] GameObject spawnPoint;
     [SerializeField] GameObject plataform;
     [SerializeField] Tower tower;
-    [SerializeField] Player player;
-    public bool m_active;
-    private bool m_upgrade=true;
+    [SerializeField] TowerAreaDamage areaTower;
+    public bool m_active = false;
+    public bool m_selected;
+    private bool m_canUpgrade=true;
     private Color m_color;
 
+    private void Start()
+    {
+        m_active = false;
+    }
 
     private void Awake()
     {
         m_color = plataform.GetComponent<MeshRenderer>().material.color;        
     }
 
-    public void Spawn()
+    public void SpawnShootTower()
     {
         tower = Instantiate(tower, spawnPoint.transform.position, transform.rotation);
         GameManager.INSTANCE.gold -= 100;
         m_active = true;
-        m_upgrade = false;
+        m_canUpgrade = false;
+    }
+
+    public void SpawnAreaTower()
+    {
+        areaTower = Instantiate(areaTower, spawnPoint.transform.position, transform.rotation);
+        GameManager.INSTANCE.gold -= 50;
+        m_active = true;
+        m_canUpgrade = false;
     }
 
     public void ChangeColor(bool isObserved)
@@ -44,6 +56,26 @@ public class SpawnTower : MonoBehaviour,IColorChangeable
         else
         {
             plataform.GetComponent<MeshRenderer>().material.color = m_color;
+        }
+    }
+
+    public void UpgradeTowerShooter()
+    {
+        if (m_canUpgrade == false)
+        {
+            tower.Upgrade();
+            GameManager.INSTANCE.gold -= 50;
+            m_canUpgrade = true;
+        }
+    }
+
+    public void UpgradeAreaShooter()
+    {
+        if (m_canUpgrade == false)
+        {
+            areaTower.Upgrade();
+            GameManager.INSTANCE.gold -= 25;
+            m_canUpgrade = true;
         }
     }
 }
