@@ -259,9 +259,11 @@ MonoBehaviour:
     m_Bits: 512
   attackCharacter: {fileID: 0}
   m_pointView: {fileID: 6246908401940668064}
+  m_damageParticle: {fileID: 0}
+  m_bodyDamage: {fileID: 0}
   state: 0
-  life: 100
   m_shootingSpeed: 5
+  m_body: {fileID: 3522522650059122728}
   towerPoint: {fileID: 3522522650059122728}
 --- !u!65 &-6528927023163741729
 BoxCollider:

@@ -6741,8 +6741,8 @@ GameObject:
   - component: {fileID: 9156814517236471634}
   - component: {fileID: 2966817775964533832}
   - component: {fileID: 147699554983449442}
-  - component: {fileID: 4587647153844188942}
   - component: {fileID: 5224802311121170164}
+  - component: {fileID: 5860893821836584356}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -6828,22 +6828,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   enemyWay: {fileID: 4529577253943515357, guid: 0d5b21174164eff43a5030651e4d4ae3, type: 3}
---- !u!54 &4587647153844188942
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7242486996484518475}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!136 &5224802311121170164
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6858,6 +6842,22 @@ CapsuleCollider:
   m_Height: 1.9329405
   m_Direction: 1
   m_Center: {x: 0, y: 1.0056992, z: 0}
+--- !u!54 &5860893821836584356
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7242486996484518475}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7381675244862563839
 GameObject:
   m_ObjectHideFlags: 0

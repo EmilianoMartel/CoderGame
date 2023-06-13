@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8308470478530131247}
   - component: {fileID: 8308470478530131232}
   - component: {fileID: 8308470478530131246}
-  - component: {fileID: 4734909414356642829}
+  - component: {fileID: -8242363096507689619}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,13 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca3b0f31e2464f4eb3011fceae1072f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 0}
   enemy: {fileID: 147699554983449442, guid: 50fc8e82c4866bd4eba9cbf317800f5e, type: 3}
   enemyStrong: {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
   p_lifeGame: 100
   gold: 300
   p_waveEnemy: 10
-  p_timeRest: 5
 --- !u!114 &8308470478530131246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0809a1c91fbe1404d815f0529845e370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4734909414356642829
+--- !u!114 &-8242363096507689619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,7 +72,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8308470478530131233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83819df0c5e63f4469e7daf2ec36a7c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 83b542fc32c40fb43be5d27f649bcf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gold: {fileID: 0}
+  trainLife: {fileID: 0}
+  waveTimer: {fileID: 0}
