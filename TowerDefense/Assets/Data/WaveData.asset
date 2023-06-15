@@ -36,5 +36,5 @@ MonoBehaviour:
   - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
   - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
   - {fileID: 8614754572944300010, guid: 5a881aa6908c9df40a6d62030c62bddf, type: 3}
-  p_waveEnemy: 10
-  p_timeRest: 30
+  p_waveEnemy: 5
+  p_timeRest: 15
