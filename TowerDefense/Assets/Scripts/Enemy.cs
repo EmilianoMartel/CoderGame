@@ -64,7 +64,7 @@ public class Enemy : Character
 
     public override void Damaged(float damage)
     {
-        StartCoroutine(FeedBackDamage());
+        if (!m_damageFeedBack) StartCoroutine(FeedBackDamage());
         if (m_currentLife < 0)
         {
             EnemyKilled();

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
 
@@ -16,13 +16,23 @@ public class Player : MonoBehaviour
     [SerializeField] private int m_rangeLayer;
     private SpawnTower spawn;
 
+    //variables para el start
+    [SerializeField] private TMPro.TMP_Text gold;
+    [SerializeField] private Image trainLife;
+    [SerializeField] private Image waveTimer;
+
     private void Start()
     {
         _camera = Camera.main;
+        UiManager.INSTANCE.gold = gold;
+        UiManager.INSTANCE.trainLife = trainLife;
+        UiManager.INSTANCE.waveTimer = waveTimer;
     }
 
     void Update()
     {
+        UiManager.INSTANCE.ViewGold();
+        UiManager.INSTANCE.ChangeLifeTrain(GameManager.INSTANCE.p_lifeGame);
         PlayerMove();
         if(spawn != null) SpawnOrUpgradeTower();
         ClickMouseDraw();

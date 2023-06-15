@@ -4,20 +4,18 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager INSTANCE;
-
-    [SerializeField] Enemy enemy;
-    [SerializeField] Enemy enemyStrong;
-    [SerializeField] int p_lifeGame = 100;
+    [SerializeField] public int p_lifeGame = 100;
 
     //variables para colocar torres
     public int gold = 300;
 
-    //variables para las waves
-    [SerializeField] int p_waveEnemy = 10;    
+    //variable victoria
+    [SerializeField] public bool p_victory;
 
     //Lo convertimos en un Singelton
     private void Awake()
@@ -33,30 +31,18 @@ public class GameManager : MonoBehaviour
         }        
     }
 
-    void Update()
-    {        
-        if (WaveManager.INSTANCE._currentWave == p_waveEnemy + 1)
-        {
-            EndGame("Win");
-        }
-        else if (p_lifeGame <= 0)
-        {
-            EndGame("Lose");
-        }
-        UiManager.INSTANCE.ViewGold();
-        UiManager.INSTANCE.ChangeLifeTrain(p_lifeGame);
-    }
-
     public void EndGame(string winOrLose)
     {
+        p_lifeGame = 100;
         if (winOrLose == "Win")
         {
-            Debug.Log("You win");
+            p_victory = true;
         }
         else if (winOrLose == "Lose")
         {
-            Debug.Log("You Louse");
+            p_victory = false;
         }
+        SceneManager.LoadScene("EndScene");
     }
 
     public void ChangeLife(int life)

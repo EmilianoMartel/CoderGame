@@ -7,9 +7,12 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     public static UiManager INSTANCE;
-    [SerializeField] private TMPro.TMP_Text gold;
-    [SerializeField] private Image trainLife;
-    [SerializeField] private Image waveTimer;
+    [SerializeField] public TMPro.TMP_Text gold;
+    [SerializeField] public Image trainLife;
+    [SerializeField] public Image waveTimer;
+
+    //variables endgame
+    [SerializeField] public TMPro.TMP_Text endGame;
 
     //Lo convertimos en un Singelton
     private void Awake()
@@ -50,14 +53,28 @@ public class UiManager : MonoBehaviour
 
     public void ChangeTimer(float percent)
     {
-        if (percent >= 1)
+        if (waveTimer != null)
         {
-            waveTimer.enabled= false;
+            if (percent >= 1)
+            {
+                waveTimer.enabled = false;
+            }
+            else
+            {
+                waveTimer.enabled = true;
+                waveTimer.fillAmount = percent;
+            }
         }
-        else
+    }
+
+    public void EndGame()
+    {
+        if (GameManager.INSTANCE.p_victory)
         {
-            waveTimer.enabled = true;
-            waveTimer.fillAmount = percent;
+            endGame.text = "You Win";
+        }else
+        {
+            endGame.text = "You Lose";
         }
     }
 }

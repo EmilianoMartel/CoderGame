@@ -18,22 +18,18 @@ public class WaveManager : MonoBehaviour
     private bool _activateWave = false;
     private List<Enemy> _enemyList = new List<Enemy>();
 
-    //Lo convertimos en un Singelton
-    private void Awake()
-    {
-        if (INSTANCE != null)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            INSTANCE = this;
-            DontDestroyOnLoad(this);
-        }
-    }
-
     void Update()
     {
+        if (_currentWave == waveData.p_waveEnemy + 1)
+        {
+            Debug.Log("win");
+            GameManager.INSTANCE.EndGame("Win");
+        }
+        else if (GameManager.INSTANCE.p_lifeGame <= 0)
+        {
+            Debug.Log("lose");
+            GameManager.INSTANCE.EndGame("Lose");
+        }
         _currentTime += Time.deltaTime;
         if(_activateWave == false)
         {
@@ -73,6 +69,7 @@ public class WaveManager : MonoBehaviour
                 break;
             }
         }
+        Debug.Log(_enemyList.Count);
         if (_enemyList.Count == 0)
         {
             ChangeWave();

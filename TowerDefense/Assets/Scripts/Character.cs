@@ -21,7 +21,9 @@ public abstract class Character : MonoBehaviour
     //variables originales y del feedback
     [SerializeField] private ParticleSystem m_damageParticle;
     [SerializeField] private GameObject m_bodyDamage;
-    private Color m_color;    
+    private Color m_color;
+
+    protected bool m_damageFeedBack = false;
 
     private void FixedUpdate()
     {
@@ -51,7 +53,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Damaged(float damage)
     {
-        StartCoroutine(FeedBackDamage());
+        if (!m_damageFeedBack) StartCoroutine(FeedBackDamage());
         m_currentLife -= damage;
         if (m_currentLife < 0)
         {
@@ -86,10 +88,12 @@ public abstract class Character : MonoBehaviour
 
     protected IEnumerator FeedBackDamage()
     {
+        m_damageFeedBack = true;
         m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
         m_damageParticle.Play();
         yield return new WaitForSeconds(0.50f);
         m_bodyDamage.GetComponent<SkinnedMeshRenderer>().material.color = m_color;
         m_damageParticle.Stop();
+        m_damageFeedBack = false;
     }
 }
